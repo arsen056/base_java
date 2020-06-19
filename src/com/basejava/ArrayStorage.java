@@ -8,7 +8,7 @@ public class ArrayStorage {
     int countResume = 0; // after this index, the array contains zeros
 
     void clear() {
-        for (int i = 0; i <= countResume; i++) {
+        for (int i = 0; i < countResume; i++) {
             storage[i] = null;
         }
         countResume = 0;
