@@ -4,18 +4,18 @@ package com.basejava; /**
 import java.util.Arrays;
 
 public class ArrayStorage {
-    Resume[] storage = new Resume[5];
+    Resume[] storage = new Resume[10000];
 
     void clear() {
         Arrays.fill(storage, null);
         notNull = 0;
     }
 
-    int notNull = 0;
+    int notNull = 0; // after this index, the array contains zeros
     void save(Resume r) {
         for (; notNull < storage.length; notNull++) {
-            if (storage[notNull] == null) {
-                storage[notNull] = r;
+            if (storage[notNull] == null) {             // array check for null
+                storage[notNull] = r;                   // adding to the array Resume
                 break;
             }
         }
@@ -33,14 +33,19 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        for (int i = 0; i <= (notNull); i++) {
-            if (storage[i].toString().equals(uuid)) {
-                storage[i] = null;
+        for (int i = 0; i <= notNull; i++) {            // iterate elements to null
+            if (storage[i].toString().equals(uuid)) {   // string comparison
+                storage[i] = null;                      // delete Resume
                 for (int j = i; j < notNull; j++) {
-                    storage[j] = storage [j + 1];
+                    storage[j] = storage [j + 1];       // offset of array elements by one
                 }
-                storage[notNull] = null;
-                notNull--;
+                storage[notNull] = null;                // delete last item
+                // this expression prevents the notNull from becoming negative
+                if (notNull == 0) {
+                    notNull = 0;
+                } else {
+                    notNull--;
+                }
                 break;
             }
         }
@@ -50,9 +55,11 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        // return new com.basejava.Resume[0];
-        // return Arrays.copyOf(storage, notNull + 1);
-        return storage;
+        if (storage[0] == null) {
+            return new com.basejava.Resume[0];
+        } else {
+            return Arrays.copyOf(storage, notNull + 1);
+        }
     }
 
     int size() {
