@@ -5,25 +5,23 @@ import java.util.Arrays;
 
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    int countResume = 0; // after this index, the array contains zeros
 
     void clear() {
-        Arrays.fill(storage, null);
-        notNull = 0;
+        for (int i = 0; i <= countResume; i++) {
+            storage[i] = null;
+        }
+        countResume = 0;
     }
 
-    int notNull = 0; // after this index, the array contains zeros
     void save(Resume r) {
-        for (; notNull < storage.length; notNull++) {
-            if (storage[notNull] == null) {             // array check for null
-                storage[notNull] = r;                   // adding to the array Resume
-                break;
-            }
-        }
+        storage[countResume] = r;                           // adding to the array Resume
+        countResume++;
     }
 
     Resume get(String uuid) {
         Resume r = null;
-        for (int i = 0; i <= (notNull); i++) {
+        for (int i = 0; i <= countResume; i++) {
             if (storage[i].toString().equals(uuid)) {
                 r = storage[i];
                 break;
@@ -33,18 +31,17 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        for (int i = 0; i <= notNull; i++) {            // iterate elements to null
-            if (storage[i].toString().equals(uuid)) {   // string comparison
-                storage[i] = null;                      // delete Resume
-                for (int j = i; j < notNull; j++) {
-                    storage[j] = storage [j + 1];       // offset of array elements by one
+        for (int i = 0; i < countResume; i++) {             // iterate elements to null
+            if (storage[i].toString().equals(uuid)) {       // string comparison
+                for (int j = i; j < countResume - 1; j++) {
+                    storage[j] = storage [j + 1];           // offset of array elements by one
                 }
-                storage[notNull] = null;                // delete last item
-                // this expression prevents the notNull from becoming negative
-                if (notNull == 0) {
-                    notNull = 0;
+                storage[countResume] = null;                // delete last item
+                // this expression prevents the countResume from becoming negative
+                if (countResume == 0) {
+                    countResume = 0;
                 } else {
-                    notNull--;
+                    countResume--;
                 }
                 break;
             }
@@ -55,18 +52,10 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        if (storage[0] == null) {
-            return new com.basejava.Resume[0];
-        } else {
-            return Arrays.copyOf(storage, notNull + 1);
-        }
+        return Arrays.copyOf(storage, countResume);
     }
 
     int size() {
-        if (storage[0] == null) {
-            return 0;
-        } else {
-            return notNull + 1;
-        }
+        return countResume;
     }
 }
