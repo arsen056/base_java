@@ -37,8 +37,6 @@ public class ArrayStorage {
                     storage[j] = storage [j + 1];           // offset of array elements by one
                 }
                 storage[countResume] = null;                // delete last item
-                // this expression prevents the countResume from becoming negative
-                storage[countResume] = null;
                 countResume--;
                 break;
             }
