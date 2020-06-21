@@ -38,11 +38,8 @@ public class ArrayStorage {
                 }
                 storage[countResume] = null;                // delete last item
                 // this expression prevents the countResume from becoming negative
-                if (countResume == 0) {
-                    countResume = 0;
-                } else {
-                    countResume--;
-                }
+                storage[countResume] = null;
+                countResume--;
                 break;
             }
         }
